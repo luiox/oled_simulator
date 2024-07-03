@@ -102,7 +102,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;USE_SIMULATOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -133,7 +133,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;USE_SIMULATOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -161,11 +161,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\oled\device_oled.c" />
+    <ClCompile Include="..\oled\OLED_Data_ASCII.c" />
+    <ClCompile Include="..\oled\OLED_Data_Hanzi.c" />
+    <ClCompile Include="..\oled\OLED_Data_Image.c" />
+    <ClCompile Include="..\oled\OLED_Patch_byAdam.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="oled_simulator.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\oled\device_oled.h" />
+    <ClInclude Include="..\oled\OLED_Data.h" />
     <ClInclude Include="..\third_party\Nuklear\nuklear.h" />
     <ClInclude Include="..\third_party\Nuklear\nuklear_sdl_renderer.h" />
+    <ClInclude Include="oled_simulator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

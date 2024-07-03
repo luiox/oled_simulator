@@ -13,9 +13,30 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="oled">
+      <UniqueIdentifier>{09ff82b6-e8e7-4c8c-9b41-bd951a21deeb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\oled\device_oled.c">
+      <Filter>oled</Filter>
+    </ClCompile>
+    <ClCompile Include="..\oled\OLED_Data_ASCII.c">
+      <Filter>oled</Filter>
+    </ClCompile>
+    <ClCompile Include="..\oled\OLED_Data_Hanzi.c">
+      <Filter>oled</Filter>
+    </ClCompile>
+    <ClCompile Include="..\oled\OLED_Data_Image.c">
+      <Filter>oled</Filter>
+    </ClCompile>
+    <ClCompile Include="oled_simulator.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\oled\OLED_Patch_byAdam.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -24,6 +45,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\third_party\Nuklear\nuklear_sdl_renderer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\oled\device_oled.h">
+      <Filter>oled</Filter>
+    </ClInclude>
+    <ClInclude Include="..\oled\OLED_Data.h">
+      <Filter>oled</Filter>
+    </ClInclude>
+    <ClInclude Include="oled_simulator.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
