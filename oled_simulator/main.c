@@ -28,6 +28,8 @@
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
 
+extern uint8_t OLED_DisplayBuf[8][128];
+
 bool should_hide = false;
 
 int main(int argc, char* argv[])
@@ -119,7 +121,10 @@ int main(int argc, char* argv[])
 
     // 设置渲染器
     oled_simulator_set_renderer(renderer);
-
+    
+    // 设置oled的像素缓冲区
+    oled_simulator_set_displaybuf(OLED_DisplayBuf);
+    
     // 初始化oled
     OLED_Init();
 
@@ -146,12 +151,13 @@ int main(int argc, char* argv[])
         /* GUI */
         if (nk_begin(ctx,
                      "Setting",
-                     nk_rect(400, 200, 230, 250),
+                     nk_rect(500, 300, 230, 250),
                      NK_WINDOW_BORDER | NK_WINDOW_MOVABLE | NK_WINDOW_SCALABLE |
                          NK_WINDOW_MINIMIZABLE | NK_WINDOW_TITLE)) {
             // oled 屏幕大小
             static int oled_width = 128, oled_height = 64;
-            static int oled_scale = 1;   // 缩放倍数
+            static int oled_scale = 4;   // 缩放倍数
+            static int oled_x = 0, oled_y = 0;
 
             // 绘制设置
             nk_layout_row_static(ctx, 30, 100, 2);
@@ -166,30 +172,62 @@ int main(int argc, char* argv[])
             nk_label(ctx, "Scale:", NK_TEXT_LEFT);
             nk_property_int(ctx, "", 1, &oled_scale, 16, 1, 1);
 
+            nk_layout_row_static(ctx, 30, 100, 2);
+            nk_label(ctx, "X:", NK_TEXT_LEFT);
+            nk_property_int(ctx, "", 0, &oled_x, 1024, 1, 1);
+
+            nk_layout_row_static(ctx, 30, 100, 2);
+            nk_label(ctx, "Y:", NK_TEXT_LEFT);
+            nk_property_int(ctx, "", 0, &oled_y, 1024, 1, 1);
+
             // 设置scale
             oled_simulator_set_scale(oled_scale);
+            // 设置oled的宽高
+            oled_simulator_set_wh(oled_width, oled_height);
+            // 设置oled的起始位置
+            oled_simulator_set_xy(oled_x, oled_y);
 
-            // 绘制oled屏幕
-            OLED_ShowChar(0, 0, 'H', 16);
-            // SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-
-            // 测试的代码
-            for (uint8_t k = 0; k < 100; k++) {
-
-                SDL_RenderDrawPoint(renderer, 200, k);
-            }
-
-            // 刷新oled屏幕
-            OLED_Update();
         }
         nk_end(ctx);
     skip:
         /* ----------------------------------------- */
 
-        // SDL_SetRenderDrawColor(renderer, bg.r * 255, bg.g * 255, bg.b * 255, bg.a * 255);
-        // SDL_RenderClear(renderer);
+        SDL_SetRenderDrawColor(renderer, bg.r * 255, bg.g * 255, bg.b * 255, bg.a * 255);
+        SDL_RenderClear(renderer);
 
         nk_sdl_render(NK_ANTI_ALIASING_ON);
+
+        // oled的绘制要在nukler之后 
+
+        // 测试代码
+        //OLED_ShowString(0, 0, "Hello, World!", OLED_6X8);
+        //OLED_ShowString(0, 8, "Hello, World!", OLED_6X8);
+        //OLED_ShowString(0, 16, "Hello, World!", OLED_6X8);
+        //OLED_ShowString(0, 24, "Hello, World!", OLED_6X8);
+        //OLED_ShowString(0, 32, "Hello, World!", OLED_6X8);
+        //OLED_ShowString(0, 40, "Hello, World!", OLED_6X8);
+        //OLED_ShowString(0, 48, "Hello, World!", OLED_6X8);
+        //OLED_ShowString(0, 56, "123456789101112131415", OLED_6X8);
+
+        // 菜单绘制
+        OLED_ShowString(2, 2, "-option1", OLED_8X16);
+        OLED_ShowString(0, 16, "-option2", OLED_8X16);
+        OLED_ShowString(0, 32, "-option3", OLED_8X16);
+        OLED_ShowString(0, 48, "-option4", OLED_8X16);
+
+        // 绘制当前选中的矩形
+        OLED_DrawRectangle(0, 0, 128, 18, OLED_UNFILLED);
+
+        // 通过仿真器显示缓存数组
+        oled_simulator_show();
+
+        
+
+        //// 测试的代码
+        //for (uint8_t k = 0; k < 100; k++) {
+        //    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        //    SDL_RenderDrawPoint(renderer, 200, k);
+        //}
 
         SDL_RenderPresent(renderer);
     }
